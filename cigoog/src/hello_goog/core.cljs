@@ -19,7 +19,7 @@
 
   (dom/removeChildren root)
 
-
+  (dom/appendChild root (dom/createTextNode "Hello, world!!!!!"))
   ;; (mk-menu root)
   ;; (mk-click-me root)
 

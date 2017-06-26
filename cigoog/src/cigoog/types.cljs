@@ -1,5 +1,5 @@
 (ns cigoog.types
-  (:require [tiltontec.util.core :as :util])
+  (:require [tiltontec.util.core :as util]))
 
 (def h5-type-tree
   [::h5.Object
@@ -16,7 +16,7 @@
     (when super
       (derive class super))
     (doseq [sub subs]
-      (derive-tree class sub)))))
+      (derive-tree class sub))))
 
-(derive-tree nil qx-type-tree)
+(derive-tree nil h5-type-tree)
 
