@@ -2,10 +2,13 @@
 (ns hello-goog.core
   (:require [goog.object :as gob]
             [goog.dom :as dom]
+            [goog.html.SafeHtml :as html]
             [goog.dom.classes :as classes]
             [goog.dom.classlist :as klist]
             [goog.events :as events]
-            [cigoog.types :as cgty])
+            [cigoog.types :as cgty]
+            [cigoog.base :as cb]
+            [tiltontec.model.core :as md])
   (:import [goog Timer]))
 
 (enable-console-print!)
@@ -15,11 +18,38 @@
 
 (declare mk-menu)
 
+(defn label [value & iargs]
+  (apply md/make
+         :type ::cgty/h5.label
+         :value value
+         iargs))
+
+(let [doc js/document
+      body (.-body doc)]
+    (pln :cool doc body)
+    (set! (.-innerHTML body) "<h2>OK?</h2>")
+
+    (let [hw (label "Hello, world!")]
+      (pln :dalbl @hw)
+      (reset! cb/js-app hw)
+      (let [h (cgty/to-html hw)]
+        (prn :dah!!! h)
+        (set! (.-innerHTML body) h))))
+
+#_
 (let [root (dom/getElement "cigoogroot")]
 
   (dom/removeChildren root)
 
-  (dom/appendChild root (dom/createTextNode "Hello, world!!!!!"))
+  (let [hw (dom/createElement "p")
+        hw2 (dom/createElement "h2")]
+    (dom/appendChild root hw)
+    (set! (.-innerHTML hw) "<h4>Booya!?</h4>")
+    (set! (.-innerHTML hw2) "<i>Really?</i>")
+    (dom/replaceNode hw2 hw))
+    )
+
+
   ;; (mk-menu root)
   ;; (mk-click-me root)
 
@@ -32,7 +62,7 @@
   #_
       (doto (Timer. 1000)
         (events/listen "tick" #(.warn js/console "still here!"))
-        (.start)))
+        (.start))
 
 (def ripple-button "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent")
 
